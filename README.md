@@ -1,2 +1,2 @@
 # pyspace
-PySpace GameJam 72
+Jogo para GameJam 72 horas

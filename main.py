@@ -4,11 +4,13 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-from game_objects import (Player, Enemy)
+from game_objects import (Player, Enemy, Bullet)
 from engine import keyboard_manager
 from engine.color import Color
 from engine.vec2 import Vec2
 from engine.sprite import SpriteBase
+import process
+
 # import packages
 sys.path.insert(0, 'path')
 
@@ -36,12 +38,16 @@ def path(name, type_of_resource='sprite'):
     """
     if type_of_resource == 'sprite':
         return BASE_DIR + 'assets/sprites/' + name
+    elif type_of_resource == 'sound':
+        return BASE_DIR + 'assets/sound/' + name
 
 # Dicionario com todos os arquivos de midia do jogo
 resource = {
     'spacecraft': path('spacecraft.png', 'sprite'),
     'enemy00': path('ship_enemy_00.png', 'sprite'),
     'bg': path('bg_001.gif', 'sprite'),
+    'fire': path('fireb.png', 'sprite'),
+    'explosion': path('explosion.mp3', 'sound')
 }
 
 if FS:
@@ -53,21 +59,28 @@ FPS = 60
 background = pygame.image.load(resource['bg']).convert()
 
 # Player
-player = Player(200, 400, 71, 77, resource['spacecraft'])
+player = Player(200, 400, resource['spacecraft'])
 
 # Enemy 00
-enemy = Enemy(10, 200, 126, 81, resource['enemy00'])
-enemy1 = Enemy(10, 100, 126, 81, resource['enemy00'])
-enemy2 = Enemy(10, 300, 126, 81, resource['enemy00'])
+enemy = Enemy(10, 200, resource['enemy00'])
+enemy1 = Enemy(10, 100, resource['enemy00'])
+enemy2 = Enemy(10, 300, resource['enemy00'])
 
 c1 = (255, 0, 0)
 c2 = (0, 255, 0)
 c3 = (0, 0, 255)
 
+sounds = {
+    "explosion": pygame.mixer.music.load(resource['explosion']),
+}
 
-layers = []
-elapsed = 0.0
+process.init(sounds)
+
+pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
+pygame.mixer.music.load(resource['explosion'])
+pygame.mixer.music.play()
 while True:
+
     # Eventos
     keys = pygame.key.get_pressed()
     
@@ -77,24 +90,24 @@ while True:
             sys.exit()
 
     # Eventos
+    
 
     # < Logica
-    dt = elapsed/1000.0
+    dt = clock.tick(FPS)/1000.0
     
     """Background color: cornflower (101, 156, 239)"""
     screen.fill(Color.CORNFLOWER)
     screen.blit(background, Vec2.ZERO)
+  
     player.update(dt, keys)
-    
-    # 
-    # Player.List.draw(screen)
-    # enemy.List.draw(screen)
-    # enemy.update(dt)
-    # player.move(dt)
-    
     Enemy.update(dt)
-    
     SpriteBase.sprites_group.draw(screen)
+    
+    Bullet.List.draw(screen)
+    Bullet.update(dt)
+    
+    process.collision(player)
+    process.keyboard(player, dt, keys)
     
     pygame.display.flip()
     elapsed = clock.tick(FPS)

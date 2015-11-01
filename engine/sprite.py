@@ -4,7 +4,7 @@ import pygame
 class SpriteBase(pygame.sprite.Sprite):
     sprites_group = pygame.sprite.Group()
 
-    def __init__(self, x, y, width, height, image_str):
+    def __init__(self, x, y, image_str):
         """ Init params
 
         Keyword arguments:
@@ -21,5 +21,8 @@ class SpriteBase(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.width = width
-        self.height = height
+        
+    def destroy(self, class_name):
+        class_name.List.remove(self)
+        SpriteBase.sprites_group.remove(self)
+        del self

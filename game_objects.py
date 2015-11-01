@@ -87,4 +87,11 @@ class Bullet(pygame.sprite.Sprite):
     @staticmethod
     def update(dt):
         for bullet in Bullet.List:
+            if bullet.rect.y < 0:
+                bullet.destroy(Bullet)
             bullet.rect.y += bullet.vely * dt
+    @classmethod      
+    def destroy(self, class_name):
+        class_name.List.remove(self)
+        SpriteBase.group.remove(self)
+        del self

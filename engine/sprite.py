@@ -2,7 +2,7 @@ import pygame
 
 
 class SpriteBase(pygame.sprite.Sprite):
-    sprites_group = pygame.sprite.Group()
+    group = pygame.sprite.Group()
 
     def __init__(self, x, y, image_str):
         """ Init params
@@ -15,7 +15,7 @@ class SpriteBase(pygame.sprite.Sprite):
                 image_str -- Image file URL
         """
         pygame.sprite.Sprite.__init__(self)
-        SpriteBase.sprites_group.add(self)
+        SpriteBase.group.add(self)
 
         self.image = pygame.image.load(image_str)
         self.rect = self.image.get_rect()
@@ -24,5 +24,5 @@ class SpriteBase(pygame.sprite.Sprite):
         
     def destroy(self, class_name):
         class_name.List.remove(self)
-        SpriteBase.sprites_group.remove(self)
+        SpriteBase.group.remove(self)
         del self

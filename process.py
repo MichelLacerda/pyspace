@@ -1,3 +1,4 @@
+import sys
 import pygame
 import game_objects
 from engine.vec2 import Vec2
@@ -6,25 +7,39 @@ sounds = None
 
 def init(sounds):
     sounds = sounds
-    
 
 def collision(player):
+    # for enemy in game_objects.Enemy.List:
+    #     if pygame.sprite.spritecollide(enemy, game_objects.Bullet.List, False):
     for enemy in game_objects.Enemy.List:
         collisions = pygame.sprite.spritecollide(enemy, game_objects.Bullet.List, True)
         if len(collisions) > 0:
             for c in collisions:
                 enemy.health -= enemy.damage(player.heft)
 
-def keyboard(player, dt, keys):
+def keyboard(player, dt, key, last_key):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+            
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+            if event.key == pygame.K_e:
+                # depois implementos outros tipos de tiro
+                pass
+         
     key_direction = Vec2(0, 0)
     
-    if keys[K_a]:
+    if key[K_a]:
         key_direction.x = -1
-    elif keys[K_d]:
+    elif key[K_d]:
         key_direction.x = +1
         
-    if keys[K_SPACE]:
+    if key[K_SPACE] and key[K_SPACE] is not last_key[K_SPACE]:
         L = game_objects.Bullet(player.rect.x, player.rect.y, 'assets/sprites/fireb.png')
-    print(player.rect.x, player.rect.y)
+    
     key_direction.normalize()
     player.rect.x += key_direction.x * player.speed * dt

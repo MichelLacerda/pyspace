@@ -79,19 +79,14 @@ process.init(sounds)
 pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
 pygame.mixer.music.load(resource['explosion'])
 pygame.mixer.music.play()
+
+last_key = None
 while True:
 
     # Eventos
-    keys = pygame.key.get_pressed()
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or keys[K_ESCAPE]:
-            pygame.quit()
-            sys.exit()
-
+    key = pygame.key.get_pressed()
     # Eventos
     
-
     # < Logica
     dt = clock.tick(FPS)/1000.0
     
@@ -99,24 +94,21 @@ while True:
     screen.fill(Color.CORNFLOWER)
     screen.blit(background, Vec2.ZERO)
   
-    player.update(dt, keys)
     Enemy.update(dt)
-    SpriteBase.sprites_group.draw(screen)
-    
-    Bullet.List.draw(screen)
     Bullet.update(dt)
     
     process.collision(player)
-    process.keyboard(player, dt, keys)
+    process.keyboard(player, dt, key, last_key)
+
+    # < Draw
+    SpriteBase.group.draw(screen) # Renderiza todos os sprites
+    Bullet.List.draw(screen)
+    # Draw >
     
     pygame.display.flip()
     elapsed = clock.tick(FPS)
-    # Logica >
-
-    # < Draw
-
     
-    # Draw >
+    last_key = key
 
 def test():
     # desenha formas

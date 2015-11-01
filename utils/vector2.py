@@ -2,8 +2,8 @@ import math
 
 class Vector2(object):
 	def __init__(self, x=0, y=0):
-		self.__x = x
-		self.__y = y
+		self.x = x
+		self.y = y
 		
 		if hasattr(x, "__getitem__"):
 			x, y, = x
@@ -13,7 +13,7 @@ class Vector2(object):
 		
 	# Para debug, retorna composição do vetor: Vector2(0, 0)	
 	def __repr__(self):
-		return('Vector2({0}, {1})'.format(self.__x, self.__y))
+		return('Vector2({0}, {1})'.format(self.x, self.y))
 	
 	def __getitem__(self, index):
 		return self._v[index]
@@ -23,43 +23,52 @@ class Vector2(object):
 		
 	# rhs: Right Hand Side (lado direito)
 	def __add__(self, rhs):
-		return Vector2(self.__x + rhs.x, self.__y + rhs.y)
+		return Vector2(self.x + rhs.x, self.y + rhs.y)
 		
 	def __sub__(self, rhs):
-		return Vector2(self.__x + rhs.x, self.__y + rhs.y)
+		return Vector2(self.x + rhs.x, self.y + rhs.y)
 		
 	def __mul__(self, scalar):
-		return Vector2(self.__x * scalar, self.__y * scalar)
+		return Vector2(self.x * scalar, self.y * scalar)
 		
 	def __truediv__(self, scalar):
-		return Vector2(self.__x / scalar, self.__y * scalar)
+		return Vector2(self.x / scalar, self.y * scalar)
 		
 	def __neg__(self):
-		return Vector2(-self.__x, -self.__y)
+		return Vector2(-self.x, -self.y)
 		
 	def __str__(self):
-		return '{0}, {1}'.format(self.__x, self.__y)
+		return '{0}, {1}'.format(self.x, self.y)
 		
 	def points(p1, p2):
 		return Vector2(p2[0] - p1[0], p2[1] - p1[1])
 		
 	def magnitude(self):
-		return math.sqrt(self.__x**2 + self.__y**2)
+		return math.sqrt(self.x**2 + self.y**2)
 		
 	def normalize(self):
 		m = self.magnitude()
 		try:
-			self.__x /= m
-			self.__y /= m
+			self.x /= m
+			self.y /= m
 		except ZeroDivisionError:
-			self.__x = 0
-			self.__y = 0
+			self.x = 0
+			self.y = 0
 
 if __name__ == "__main__":
 	# testes
 	A = (10.0, 20.0)
 	B = (30.0, 35.0)
+	C = (15.0, 45.0)
 	AB = Vector2.points(A, B)
+	BC = Vector2.points(B, C)
+	
+	AC = Vector2.points(A, C)
+	print("AC: ", AC)
+	
+	AC = AB + BC
+	print("AB + AC: ", AC)
+	
 	print('Vector AB [20.0, 15.0]:', AB)
 	print('Magnetude do Vector é [25.0]:', AB.magnitude())
 	AB.normalize()

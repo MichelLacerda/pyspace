@@ -3,19 +3,19 @@ import pygame
 import game_objects
 from engine.vec2 import Vec2
 from pygame.locals import *
-sounds = None
+from engine.sound import Sound
+import sound_manager
 
-def init(sounds):
-    sounds = sounds
+sounds = sound_manager
+
 
 def collision(player):
-    # for enemy in game_objects.Enemy.List:
-    #     if pygame.sprite.spritecollide(enemy, game_objects.Bullet.List, False):
     for enemy in game_objects.Enemy.List:
         collisions = pygame.sprite.spritecollide(enemy, game_objects.Bullet.List, True)
         if len(collisions) > 0:
             for c in collisions:
                 enemy.health -= enemy.damage(player.heft)
+                sounds.fx['explosion'].play(enemy.rect.x, 800)
 
 def keyboard(player, dt, key, last_key):
     for event in pygame.event.get():

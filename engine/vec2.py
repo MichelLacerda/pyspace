@@ -76,16 +76,15 @@ if __name__ == "__main__":
     print('Magnetude do Vector é [25.0]:', AB.magnitude())
     AB.normalize()
     print('Vector AB Normalize é [0.8, 0.6]:', AB)
-    
+
     print('\n')
-    
+
     TOP = Vec2.ZERO
     BOTTOM = (0, 600)
     LEFT = Vec2.ZERO
     RIGHT = (0, 800)
-    
+
     POS = (100, 100)
-    
+
     NORTE = Vec2.points(TOP, POS)
     print('Norte', NORTE.magnitude())
-    

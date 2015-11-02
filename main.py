@@ -5,7 +5,6 @@ import sys
 import pygame
 from pygame.locals import *
 from game_objects import (Player, Enemy, Bullet)
-from engine.sound import Sound
 from engine.color import Color
 from engine.vec2 import Vec2
 from engine.sprite import SpriteBase
@@ -21,12 +20,14 @@ BASE_DIR = os.path.dirname(os.path.abspath('__file__')) + '/'
 
 display = pygame.display.Info()
 
+# FULLSCREEN
 FS = False
 
 if len(pygame.display.list_modes(display.bitsize)) <= 2:
     SCREEN_SIZE = pygame.display.list_modes(display.bitsize)[1]
 else:
     SCREEN_SIZE = (display.current_w, display.current_h)
+
 
 def path(name, type_of_resource='sprite'):
     """Return absolute path to file
@@ -68,25 +69,15 @@ enemy = Enemy(10, 200, resource['enemy00'])
 enemy1 = Enemy(10, 100, resource['enemy00'])
 enemy2 = Enemy(10, 300, resource['enemy00'])
 
-c1 = (255, 0, 0)
-c2 = (0, 255, 0)
-c3 = (0, 0, 255)
-
-# pygame.mixer.init(frequency=44100, size=16, channels=2, buffer=4096)
-# pygame.mixer.music.load(resource['explosion'])
-# pygame.mixer.music.play()
-
-music = pygame.mixer.Sound(resource['sound'])
-music_channel = music.play()
 
 def stereo_pan(x, width):
     rv = float(x)/width
     lv = 1.0 - rv
     return(lv, rv)
-    
+
 if music_channel is not None:
     l, r = stereo_pan(100, 800)
-    music_channel.set_volume(l, r) 
+    music_channel.set_volume(l, r)
 last_key = None
 
 
@@ -95,33 +86,27 @@ while True:
     # Eventos
     key = pygame.key.get_pressed()
     # Eventos
-    
+
     # < Logica
     dt = clock.tick(FPS)/1000.0
-    
+
     """Background color: cornflower (101, 156, 239)"""
     screen.fill(Color.CORNFLOWER)
     screen.blit(background, Vec2.ZERO)
-  
+
     Enemy.update(dt)
     Bullet.update(dt)
-    
+
     process.collision(player)
     process.keyboard(player, dt, key, last_key)
 
     # < Draw
-    SpriteBase.group.draw(screen) # Renderiza todos os sprites
+    # Renderiza todos os sprites
+    SpriteBase.group.draw(screen)
     Bullet.List.draw(screen)
     # Draw >
-    
+
     pygame.display.flip()
     elapsed = clock.tick(FPS)
-    
-    last_key = key
 
-def test():
-    # desenha formas
-    pygame.draw.line(screen, c2, (0, 0), (SCREEN_SIZE[0], SCREEN_SIZE[1]), 1)
-    pygame.draw.rect(screen, c1, (16, 16, 32, 32))
-    pygame.draw.circle(screen, c3, (64, 64), 32, 1)
-    # SpadceCraft.List.draw(screen)
+    last_key = key

@@ -55,7 +55,7 @@ class Enemy(SpriteBase):
         Enemy.List.add(self)
 
         w, h = self.image.get_size()
-        scale = 1
+        scale = 0.6
         self.image = pygame.transform.scale(self.image,
                                             (int(w*scale), int(h*scale)))
         self.health = 100.0
@@ -64,7 +64,7 @@ class Enemy(SpriteBase):
         self.loss = 10
 
         self.velx = randint(100, 100)
-        self.vely = randint(80, 80)
+        self.vely = randint(100, 100)
         self.amplitude, self.period = randint(400,440), randint(2, 5) / 100.0
         # self.amplitude, self.period = randint(20, 140), randint(4, 5) / 100.0
         
@@ -89,7 +89,7 @@ class Enemy(SpriteBase):
         # self.rect.y = self.amplitude * sin(self.period * self.rect.x) + 140
         # self.rect.y = self.amplitude * sin(self.period * self.rect.x) + 140
         
-        self.rect.x = self.amplitude * cos(self.period * (self.rect.y - self.rect.width/2)) + (400 - self.rect.width/2)
+        self.rect.x = self.amplitude * cos(self.period * (self.rect.y - self.rect.width/2) * 1.2) + (400 - self.rect.width/2)
 
     def damage(self, heft):
         self.channel_impact = self.sound_impact.play()
@@ -143,9 +143,3 @@ class Bullet(SpriteBase):
                 bullet.destroy(Bullet)
             else:
                 bullet.rect.y += bullet.vely * dt
-
-    # @classmethod
-    # def destroy(self, class_name):
-    #     class_name.List.remove(self)
-    #     SpriteBase.group.remove(self)
-    #     del self

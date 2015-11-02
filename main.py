@@ -86,7 +86,7 @@ while True:
     dt = clock.tick(FPS)/1000.0
 
     """Background color: cornflower (101, 156, 239)"""
-    screen.fill(Color.CORNFLOWER)
+    screen.fill(Color.BLACK)
     # screen.blit(background, Vec2.ZERO)
 
     Enemy.update(dt)

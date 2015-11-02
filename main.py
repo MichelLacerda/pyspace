@@ -5,7 +5,7 @@ import sys
 import pygame
 from pygame.locals import *
 from game_objects import (Player, Enemy, Bullet)
-from engine import keyboard_manager
+from engine.sound import Sound
 from engine.color import Color
 from engine.vec2 import Vec2
 from engine.sprite import SpriteBase
@@ -27,7 +27,6 @@ if len(pygame.display.list_modes(display.bitsize)) <= 2:
     SCREEN_SIZE = pygame.display.list_modes(display.bitsize)[1]
 else:
     SCREEN_SIZE = (display.current_w, display.current_h)
-    
 
 def path(name, type_of_resource='sprite'):
     """Return absolute path to file
@@ -47,8 +46,11 @@ resource = {
     'enemy00': path('ship_enemy_00.png', 'sprite'),
     'bg': path('bg_001.gif', 'sprite'),
     'fire': path('fireb.png', 'sprite'),
-    'explosion': path('explosion.mp3', 'sound')
+    'explosion': path('explosion.ogg', 'sound'),
+    'sound': path('hot.ogg', 'sound')
 }
+
+process.resource = resource
 
 if FS:
     screen = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN, display.bitsize)
@@ -70,17 +72,24 @@ c1 = (255, 0, 0)
 c2 = (0, 255, 0)
 c3 = (0, 0, 255)
 
-sounds = {
-    "explosion": pygame.mixer.music.load(resource['explosion']),
-}
+# pygame.mixer.init(frequency=44100, size=16, channels=2, buffer=4096)
+# pygame.mixer.music.load(resource['explosion'])
+# pygame.mixer.music.play()
 
-process.init(sounds)
+music = pygame.mixer.Sound(resource['sound'])
+music_channel = music.play()
 
-pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
-pygame.mixer.music.load(resource['explosion'])
-pygame.mixer.music.play()
-
+def stereo_pan(x, width):
+    rv = float(x)/width
+    lv = 1.0 - rv
+    return(lv, rv)
+    
+if music_channel is not None:
+    l, r = stereo_pan(100, 800)
+    music_channel.set_volume(l, r) 
 last_key = None
+
+
 while True:
 
     # Eventos

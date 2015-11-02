@@ -17,7 +17,7 @@ sys.path.insert(0, 'path')
 # inicia pygame
 pygame.init()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__)) + '/'
+BASE_DIR = os.path.dirname(os.path.abspath('__file__')) + '/'
 
 display = pygame.display.Info()
 

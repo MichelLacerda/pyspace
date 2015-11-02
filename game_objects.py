@@ -35,6 +35,9 @@ class Enemy(SpriteBase):
         SpriteBase.__init__(self, x, y, image_str)
         Enemy.List.add(self)
         
+        w,h = self.image.get_size()
+        scale = 1
+        self.image = pygame.transform.scale(self.image, (int(w*scale), int(h*scale)))
         self.health = 100.0
         self.loss = 10 # perda em porcentagem
         self.velx = randint(150, 180)

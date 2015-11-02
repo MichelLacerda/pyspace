@@ -16,7 +16,6 @@ class Sound(object):
     def play(self, x, width=None):
         self.channel = self.sound.play()
         
-        
         if self.channel is not None:
             if x and width:
                 l, r = stereo_pan(x, width)

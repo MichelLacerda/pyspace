@@ -64,11 +64,9 @@ background = pygame.image.load(resource['bg']).convert()
 # Player
 player = Player(200, 400, resource['spacecraft'])
 
-# Enemy 00
-enemy = Enemy(10, 200, resource['enemy00'])
-enemy1 = Enemy(10, 100, resource['enemy00'])
-enemy2 = Enemy(10, 300, resource['enemy00'])
-
+# Enemy
+for i, inimigos in enumerate(range(1)):
+    fn = Enemy(0, 10, resource['enemy00'])
 
 def stereo_pan(x, width):
     rv = float(x)/width
@@ -93,6 +91,7 @@ while True:
 
     Enemy.update(dt)
     Bullet.update(dt)
+    player.update(dt)
 
     process.collision(player)
     process.keyboard(player, dt, key, last_key)

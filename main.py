@@ -75,9 +75,6 @@ def stereo_pan(x, width):
     lv = 1.0 - rv
     return(lv, rv)
 
-if music_channel is not None:
-    l, r = stereo_pan(100, 800)
-    music_channel.set_volume(l, r)
 last_key = None
 
 

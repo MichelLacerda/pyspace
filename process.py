@@ -7,7 +7,6 @@ import sound_manager
 
 sounds = sound_manager
 
-
 def collision(player):
     for enemy in game_objects.Enemy.List:
         collisions = pygame.sprite.spritecollide(enemy,

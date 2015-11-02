@@ -13,11 +13,17 @@ class Sound(object):
     def __init__(self, sound_str):
         self.sound = pygame.mixer.Sound(sound_str)
 
-    def play(self, x, width):
+    def play(self, x, width=None):
         self.channel = self.sound.play()
+        
+        
         if self.channel is not None:
-            l, r = stereo_pan(x, width)
-            self.channel.set_volume(l, r)
+            if x and width:
+                l, r = stereo_pan(x, width)
+                self.channel.set_volume(l, r)
+            else:
+                self.channel.set_volume(float(x))
+
 
 if __name__ == "__main__":
     pygame.init()

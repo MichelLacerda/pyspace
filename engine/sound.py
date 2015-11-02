@@ -5,7 +5,7 @@ from pygame.locals import *
 
 def stereo_pan(x, width):
     rv = float(x)/width
-    lv = 1.0 - rv
+    lv = 0.4 - rv
     return(lv, rv)
 
 

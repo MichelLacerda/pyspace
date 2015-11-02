@@ -65,7 +65,7 @@ background = pygame.image.load(resource['bg']).convert()
 player = Player(200, 400, resource['spacecraft'])
 
 # Enemy
-for i, inimigos in enumerate(range(1)):
+for i, inimigos in enumerate(range(10)):
     fn = Enemy(0, 10, resource['enemy00'])
 
 def stereo_pan(x, width):
@@ -87,7 +87,7 @@ while True:
 
     """Background color: cornflower (101, 156, 239)"""
     screen.fill(Color.CORNFLOWER)
-    screen.blit(background, Vec2.ZERO)
+    # screen.blit(background, Vec2.ZERO)
 
     Enemy.update(dt)
     Bullet.update(dt)

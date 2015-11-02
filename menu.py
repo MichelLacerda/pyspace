@@ -16,6 +16,10 @@ if __name__ == "__main__":
     back = engine.utils.path("space.png",'sprite')
     back_fundo = pygame.image.load(back)
     
+    #logo
+    logo = engine.utils.path("pySPACE.png", 'sprite')
+    logo_lg = pygame.image.load(logo)
+    
     #botão
     jogar = engine.utils.path("bt_jogar.png",'sprite')
     sair = engine.utils.path("bt_sair.png",'sprite')
@@ -43,8 +47,9 @@ if __name__ == "__main__":
         screen.fill((1,0,0))
         
         screen.blit(back_fundo,(0,0))
-        screen.blit(bt_jogar,(300,300))
-        screen.blit(bt_sair,(300, 400))
+        screen.blit(bt_jogar,(300,400))
+        screen.blit(bt_sair,(330, 500))
+        screen.blit(logo_lg, (0, 50))
         
         screen.blit(seta_st,(p_x, p_y))
         
